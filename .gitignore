@@ -1,0 +1,7 @@
+target
+.idea/
+*.iml
+
+scenicView.properties
+
+video-files
