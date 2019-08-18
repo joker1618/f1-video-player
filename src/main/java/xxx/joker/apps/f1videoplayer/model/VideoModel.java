@@ -6,7 +6,7 @@ import xxx.joker.libs.datalayer.JkRepo;
 import java.nio.file.Path;
 import java.util.Set;
 
-public interface VpModel extends JkRepo {
+public interface VideoModel extends JkRepo {
 
     F1Video getOrAddF1Video(Path videoPath);
     Set<F1Video> getF1Videos();

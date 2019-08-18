@@ -2,23 +2,22 @@ package xxx.joker.apps.f1videoplayer.model;
 
 import xxx.joker.apps.f1videoplayer.model.entities.F1Video;
 import xxx.joker.libs.core.files.JkEncryption;
-import xxx.joker.libs.datalayer.JkRepo;
 import xxx.joker.libs.datalayer.JkRepoFile;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Set;
 
-public class VpModelImpl extends JkRepoFile implements VpModel {
+public class VideoModelImpl extends JkRepoFile implements VideoModel {
 
 
-    private static final  VpModel model = new VpModelImpl();
+    private static final VideoModel model = new VideoModelImpl();
 
-    private VpModelImpl() {
+    private VideoModelImpl() {
         super(Paths.get("video-repo"), "vp", "xxx.joker.apps.f1videoplayer.model.entities");
     }
 
-    public static VpModel getModel() {
+    public static VideoModel getModel() {
         return model;
     }
 

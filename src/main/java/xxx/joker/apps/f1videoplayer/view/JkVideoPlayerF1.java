@@ -1,7 +1,6 @@
 package xxx.joker.apps.f1videoplayer.view;
 
 import javafx.application.Platform;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -17,11 +16,10 @@ import javafx.scene.media.MediaView;
 import javafx.util.Duration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import xxx.joker.apps.f1videoplayer.model.VpModel;
-import xxx.joker.apps.f1videoplayer.model.VpModelImpl;
+import xxx.joker.apps.f1videoplayer.model.VideoModel;
+import xxx.joker.apps.f1videoplayer.model.VideoModelImpl;
 import xxx.joker.apps.f1videoplayer.model.entities.F1Video;
 import xxx.joker.libs.core.datetime.JkDuration;
-import xxx.joker.libs.core.files.JkEncryption;
 import xxx.joker.libs.core.files.JkFiles;
 
 import java.nio.file.Path;
@@ -37,7 +35,7 @@ public class JkVideoPlayerF1 extends BorderPane {
 
 	private static Logger logger = LoggerFactory.getLogger(JkVideoPlayerF1.class);
 
-	private VpModel model = VpModelImpl.getModel();
+	private VideoModel model = VideoModelImpl.getModel();
 	private F1Video f1Video;
 	private Path videoPath;
 
