@@ -29,21 +29,21 @@ public class PlayerLauncher extends Application {
     private static final String USAGE = "f1-player  <MP4_FILE>  [-sv]";
 
     public static void main(String[] args) {
-//        Path videoPath = Paths.get("data/F1 2018 Singapore Hotlap + Setup (1_33.195).mp4");
-//        videoPlayer = new JkVideoPlayerF1(videoPath);
-//        scenicView = args.length > 0 && "-sv".equals(args[0]);
-
-        if(args.length == 0 || args.length > 2) {
-            throw new JkRuntimeException(USAGE);
-        }
-
-        if(args.length == 2) {
-            if(!"-sv".equals(args[1]))  throw new JkRuntimeException(USAGE);
-            scenicView = true;
-        }
-
-        Path videoPath = Paths.get(JkConvert.unixToWinPath(args[0]));
+        Path videoPath = Paths.get("video-files/2018-Singapore-setup-Ferrari.mp4");
         videoPlayer = new JkVideoPlayerF1(videoPath);
+        scenicView = args.length > 0 && "-sv".equals(args[0]);
+
+//        if(args.length == 0 || args.length > 2) {
+//            throw new JkRuntimeException(USAGE);
+//        }
+//
+//        if(args.length == 2) {
+//            if(!"-sv".equals(args[1]))  throw new JkRuntimeException(USAGE);
+//            scenicView = true;
+//        }
+//
+//        Path videoPath = Paths.get(JkConvert.unixToWinPath(args[0]));
+//        videoPlayer = new JkVideoPlayerF1(videoPath);
 
         launch();
     }
