@@ -18,10 +18,8 @@
     -fx-border-width: 0 0 1 0;
 }
 
-.headingBox .label,
-.headingBox .button,
-.mediaBarPane .label,
-.mediaBarPane .button{
+.borderedRoot > .subPane .label,
+.borderedRoot > .subPane .button {
     -fx-text-fill: -text-color;
     -fx-font-weight: BOLD;
 }
@@ -47,7 +45,7 @@
 
 .mediaBarPane .barBox {
     -fx-alignment: CENTER;
-    -fx-spacing: 5;
+    -fx-spacing: 10;
 }
 
 .mediaBarPane .button .text {
@@ -56,7 +54,7 @@
 }
 .mediaBarPane .barBoxSmallBtn {
     -fx-alignment: CENTER;
-    -fx-spacing: 2;
+    -fx-spacing: 5;
 }
 .mediaBarPane .barBoxSmallBtn .button {
     -fx-min-width: 40;
@@ -69,7 +67,7 @@
 }
 
 .mediaBarPane .seekBox {
-    -fx-spacing: 3;
+    -fx-spacing: 5;
 }
 .mediaBarPane .seekBox .button {
     /*-fx-font-size: 8;*/
@@ -86,4 +84,51 @@
 .mediaBarPane .slider .track {
     -fx-background-color: -text-color;
     -fx-padding: 1 0 0 0;
+}
+
+.bookmarkPane {
+    -fx-border-color: -text-color;
+    -fx-border-width: 0 0 0 1;
+    -fx-alignment: CENTER;
+    -fx-spacing: 10;
+}
+
+.bookmarkPane .subBox {
+    -fx-alignment: CENTER;
+    -fx-padding: 20;
+}
+
+.bookmarkPane .headerBox .button {
+    -fx-pref-width: 120;
+    -fx-pref-height: 50;
+    -fx-border-width: 1;
+    -fx-border-color: -text-color;
+}
+
+.bookmarkPane .text {
+    -fx-font-size: 14;
+}
+.bookmarkPane .button .text {
+    -fx-font-size: 16;
+    -fx-font-weight: BOLD;
+}
+.bookmarkPane .customGrid .button .text {
+    -fx-font-size: 14;
+
+}
+.bookmarkPane .customGrid .button {
+    -fx-background-color: PINK;
+    -text-color: BLACK;
+}
+
+.bookmarkPane .customGrid .cellBox {
+    -fx-alignment: CENTER;
+}
+
+
+
+
+.bookmarkPane .customGrid {
+    -fx-hgap: 15;
+    -fx-vgap: 15;
 }

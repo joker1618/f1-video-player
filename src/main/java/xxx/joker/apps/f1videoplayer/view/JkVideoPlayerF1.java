@@ -3,6 +3,10 @@ package xxx.joker.apps.f1videoplayer.view;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.SortedList;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
@@ -13,7 +17,11 @@ import javafx.scene.media.MediaView;
 import javafx.util.Duration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import xxx.joker.apps.f1videoplayer.model.VpModel;
+import xxx.joker.apps.f1videoplayer.model.VpModelImpl;
+import xxx.joker.apps.f1videoplayer.model.entities.F1Video;
 import xxx.joker.libs.core.datetime.JkDuration;
+import xxx.joker.libs.core.files.JkEncryption;
 import xxx.joker.libs.core.files.JkFiles;
 
 import java.nio.file.Path;
@@ -21,6 +29,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static xxx.joker.libs.core.utils.JkStrings.strf;
 
@@ -28,6 +37,8 @@ public class JkVideoPlayerF1 extends BorderPane {
 
 	private static Logger logger = LoggerFactory.getLogger(JkVideoPlayerF1.class);
 
+	private VpModel model = VpModelImpl.getModel();
+	private F1Video f1Video;
 	private Path videoPath;
 
 	private MediaView mediaView;
@@ -42,14 +53,20 @@ public class JkVideoPlayerF1 extends BorderPane {
 	private boolean isMediaTerminated;
 	private boolean isAlreadyStarted = false;
 
+	private ObservableList<JkDuration> bookmarks;
+
 	private List<Double> rateList = Arrays.asList(0.1, 0.3, 0.5, 1.0, 2.0, 5.0);
 
 	public JkVideoPlayerF1(Path videoPath) {
 		this.videoPath = videoPath;
+		this.f1Video = model.getOrAddF1Video(videoPath);
 
 		setTop(createTopPane());
 		setCenter(createMediaViewPane());
 		setBottom(createMediaBarPane());
+		setRight(createBookmarkPane());
+
+		getChildren().forEach(ch -> ch.getStyleClass().add("subPane"));
 
 		getStyleClass().add("borderedRoot");
 		getStylesheets().add(getClass().getResource("/css/JkVideoPlayerF1.css").toExternalForm());
@@ -62,10 +79,19 @@ public class JkVideoPlayerF1 extends BorderPane {
 			logger.trace("closing video player for {}", JkFiles.getFileName(videoPath));
 			mediaPlayer.stop();
 			mediaPlayer.dispose();
+			model.commit();
 		}
 	}
 
-    private Pane createTopPane() {
+	public Path getVideoPath() {
+		return videoPath;
+	}
+
+	public List<JkDuration> getBookmarks() {
+		return bookmarks;
+	}
+
+	private Pane createTopPane() {
 		Label lblHeading = new Label(videoPath.getFileName()+"");
 
 		HBox headingBox = new HBox();
@@ -78,7 +104,6 @@ public class JkVideoPlayerF1 extends BorderPane {
 
         return headingBox;
     }
-
 	private Pane createMediaViewPane() {
 		// Create media view
 		mediaView = new MediaView();
@@ -111,6 +136,7 @@ public class JkVideoPlayerF1 extends BorderPane {
 
 		return mvPane;
 	}
+
 	private void fitMediaViewPane(Pane mvPane) {
 		if(videoPath == null || mediaView == null)	return;
 
@@ -132,7 +158,6 @@ public class JkVideoPlayerF1 extends BorderPane {
 		double fitWidth = (paneFormat < videoFormat) ? wpane : (hpane * videoFormat);
 		mediaView.setFitWidth(fitWidth);
 	}
-
 	private Pane createMediaBarPane() {
 		MediaPlayer mediaPlayer = mediaView.getMediaPlayer();
 
@@ -211,7 +236,6 @@ public class JkVideoPlayerF1 extends BorderPane {
 
 		return mediaBar;
 	}
-
 	private void setVideoRate(boolean slower) {
 		double actualRate = mediaView.getMediaPlayer().getRate();
 		int idx = rateList.indexOf(actualRate);
@@ -225,7 +249,6 @@ public class JkVideoPlayerF1 extends BorderPane {
 			mediaView.getMediaPlayer().setRate(newRate);
 		}
 	}
-
 	private void initMediaBarBindings() {
 		MediaPlayer mediaPlayer = mediaView.getMediaPlayer();
 
@@ -334,7 +357,49 @@ public class JkVideoPlayerF1 extends BorderPane {
 		);
 	}
 
-	public Path getVideoPath() {
-		return videoPath;
+	private Pane createBookmarkPane() {
+		MediaPlayer mediaPlayer = mediaView.getMediaPlayer();
+
+		bookmarks = FXCollections.observableArrayList(new ArrayList<>());
+		SortedList<JkDuration> sortedList = new SortedList<>(bookmarks, JkDuration::compareTo);
+
+		BorderPane bookmarkPane = new BorderPane();
+		bookmarkPane.getStyleClass().add("bookmarkPane");
+
+		Button btnMark = new Button("MARK");
+		btnMark.setOnAction(e -> {
+			JkDuration btime = JkDuration.of(mediaView.getMediaPlayer().getCurrentTime());
+			if(bookmarks.contains(btime)) {
+				bookmarks.remove(btime);
+				f1Video.getMarks().remove(btime);
+			} else {
+				bookmarks.add(btime);
+				f1Video.getMarks().add(btime);
+			}
+		});
+		HBox headerBox = new HBox(btnMark);
+		headerBox.getStyleClass().addAll("subBox", "headerBox");
+		bookmarkPane.setTop(headerBox);
+
+		GridPane gridPane = new GridPane();
+		bookmarks.addListener((ListChangeListener<JkDuration>)c -> {
+			GridPaneBuilder gpBuilder = new GridPaneBuilder();
+			AtomicInteger rowNum = new AtomicInteger(-1);
+			sortedList.forEach(b -> {
+				rowNum.incrementAndGet();
+				gpBuilder.add(rowNum.get(), 0, rowNum.get()+1);
+				gpBuilder.add(rowNum.get(), 1, b.toStringElapsed(ChronoUnit.MINUTES));
+				Button seek = new Button("seek");
+				seek.setOnAction(e -> mediaPlayer.seek(b.toFxDuration()));
+				gpBuilder.add(rowNum.get(), 2, seek);
+			});
+			gpBuilder.createGridPane(gridPane);
+		});
+		bookmarks.setAll(f1Video.getMarks());
+		HBox gpBox = new HBox(gridPane);
+		gpBox.getStyleClass().addAll("subBox", "centerBox");
+		bookmarkPane.setCenter(gpBox);
+
+		return bookmarkPane;
 	}
 }

@@ -1,10 +1,13 @@
 package vari;
 
 import org.junit.Test;
+import xxx.joker.libs.core.files.JkEncryption;
 import xxx.joker.libs.core.files.JkFiles;
 import xxx.joker.libs.core.web.JkWeb;
 
 import java.nio.file.Paths;
+
+import static xxx.joker.libs.core.utils.JkConsole.display;
 
 public class Vari {
 

@@ -29,7 +29,7 @@ public class PlayerLauncher extends Application {
     private static final String USAGE = "f1-player  <MP4_FILE>  [-sv]";
 
     public static void main(String[] args) {
-        Path videoPath = Paths.get("video-files/2018-Singapore-setup-Ferrari.mp4");
+        Path videoPath = Paths.get("video-files/2018_Singapore_Ferrari.mp4");
         videoPlayer = new JkVideoPlayerF1(videoPath);
         scenicView = args.length > 0 && "-sv".equals(args[0]);
 
