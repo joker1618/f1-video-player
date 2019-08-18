@@ -2,7 +2,7 @@
    -bg-color: BLACK;
    -text-color: #99ccff;
    -fx-background-color: -bg-color;
-   -fx-font-size: 12;
+   -fx-font-size: 14;
 }
 
 .borderedRoot {
@@ -97,11 +97,19 @@
     -fx-alignment: CENTER;
     -fx-padding: 20;
 }
+.bookmarkPane .centerBox .scroll-pane .thumb {
+    -fx-background-color: -text-color;
+}
 
 .bookmarkPane .headerBox .button {
     -fx-pref-width: 120;
     -fx-pref-height: 50;
     -fx-border-width: 1;
+    -fx-border-color: -text-color;
+}
+
+.bookmarkPane .headerBox {
+    -fx-border-width: 0 0 1 0;
     -fx-border-color: -text-color;
 }
 
@@ -120,14 +128,9 @@
     -fx-background-color: PINK;
     -text-color: BLACK;
 }
-
 .bookmarkPane .customGrid .cellBox {
     -fx-alignment: CENTER;
 }
-
-
-
-
 .bookmarkPane .customGrid {
     -fx-hgap: 15;
     -fx-vgap: 15;

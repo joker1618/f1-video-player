@@ -92,7 +92,7 @@ public class JkVideoPlayerF1 extends BorderPane {
 	}
 
 	private Pane createTopPane() {
-		Label lblHeading = new Label(videoPath.getFileName()+"");
+		Label lblHeading = new Label(strf("{}", videoPath.getFileName()));
 
 		HBox headingBox = new HBox();
         headingBox.getStyleClass().add("headingBox");
@@ -396,8 +396,10 @@ public class JkVideoPlayerF1 extends BorderPane {
 			gpBuilder.createGridPane(gridPane);
 		});
 		bookmarks.setAll(f1Video.getMarks());
-		HBox gpBox = new HBox(gridPane);
+		HBox gpBox = new HBox(new ScrollPane(gridPane));
+//		HBox gpBox = new HBox(gridPane);
 		gpBox.getStyleClass().addAll("subBox", "centerBox");
+//		bookmarkPane.setCenter(new ScrollPane(gpBox));
 		bookmarkPane.setCenter(gpBox);
 
 		return bookmarkPane;

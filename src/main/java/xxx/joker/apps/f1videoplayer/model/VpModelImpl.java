@@ -15,7 +15,7 @@ public class VpModelImpl extends JkRepoFile implements VpModel {
     private static final  VpModel model = new VpModelImpl();
 
     private VpModelImpl() {
-        super(Paths.get("video-files"), "vp", "xxx.joker.apps.f1videoplayer.model.entities");
+        super(Paths.get("video-repo"), "vp", "xxx.joker.apps.f1videoplayer.model.entities");
     }
 
     public static VpModel getModel() {

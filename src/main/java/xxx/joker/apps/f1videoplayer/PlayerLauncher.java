@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.apache.commons.lang3.StringUtils;
 import org.scenicview.ScenicView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +30,9 @@ public class PlayerLauncher extends Application {
     private static final String USAGE = "f1-player  <MP4_FILE>  [-sv]";
 
     public static void main(String[] args) {
-        Path videoPath = Paths.get("video-files/2018_Singapore_Ferrari.mp4");
+        Path folder = Paths.get("video-files");
+        String fnContains = "abu dhab";
+        Path videoPath = JkFiles.findFile(folder, false, p -> StringUtils.containsIgnoreCase(p.getFileName().toString(), fnContains));
         videoPlayer = new JkVideoPlayerF1(videoPath);
         scenicView = args.length > 0 && "-sv".equals(args[0]);
 
