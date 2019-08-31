@@ -1,20 +1,23 @@
 package xxx.joker.apps.f1videoplayer;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.apache.commons.lang3.StringUtils;
 import org.scenicview.ScenicView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import xxx.joker.apps.f1videoplayer.model.VideoModel;
+import xxx.joker.apps.f1videoplayer.model.VideoModelImpl;
 import xxx.joker.apps.f1videoplayer.view.JkVideoPlayerF1;
-import xxx.joker.libs.core.exception.JkRuntimeException;
 import xxx.joker.libs.core.files.JkFiles;
-import xxx.joker.libs.core.utils.JkConsole;
-import xxx.joker.libs.core.utils.JkConvert;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -27,33 +30,39 @@ public class PlayerLauncher extends Application {
     private static boolean scenicView = false;
     private static JkVideoPlayerF1 videoPlayer;
 
-    private static final String USAGE = "f1-player  <MP4_FILE>  [-sv]";
+    private static final String USAGE = "f1-player  [-sv]  <MP4_FILE>";
+    private static final String BASE_FOLDER_CHOOSE_PROP = "base.folder.choose";
 
     public static void main(String[] args) {
         Path folder = Paths.get("video-files");
         String fnContains = "abu dhab";
-        Path videoPath = JkFiles.findFile(folder, false, p -> StringUtils.containsIgnoreCase(p.getFileName().toString(), fnContains));
-        videoPlayer = new JkVideoPlayerF1(videoPath);
+
         scenicView = args.length > 0 && "-sv".equals(args[0]);
 
-//        if(args.length == 0 || args.length > 2) {
-//            throw new JkRuntimeException(USAGE);
-//        }
-//
-//        if(args.length == 2) {
-//            if(!"-sv".equals(args[1]))  throw new JkRuntimeException(USAGE);
-//            scenicView = true;
-//        }
-//
-//        Path videoPath = Paths.get(JkConvert.unixToWinPath(args[0]));
-//        videoPlayer = new JkVideoPlayerF1(videoPath);
+        Path videoPath;
+        if(args.length > 1) {
+            videoPath = Paths.get(args[1]);
+        } else {
+            videoPath = JkFiles.findFile(folder, false, p -> StringUtils.containsIgnoreCase(p.getFileName().toString(), fnContains));
+        }
+        if(videoPath != null && Files.exists(videoPath)) {
+            videoPlayer = new JkVideoPlayerF1(videoPath);
+        }
 
         launch();
     }
 
 
     @Override
-    public void start(Stage primaryStage) throws IOException {
+    public void start(Stage primaryStage) {
+        if(videoPlayer == null) {
+            videoPlayer = createVideoPlayer();
+            if(videoPlayer == null) {
+                Platform.exit();
+                System.exit(1);
+            }
+        }
+
         // Create scene
         Group root = new Group();
         Scene scene = new Scene(root);
@@ -70,10 +79,38 @@ public class PlayerLauncher extends Application {
         }
     }
 
+    private JkVideoPlayerF1 createVideoPlayer() {
+        VideoModel model = VideoModelImpl.getModel();
+        FileChooser fc = new FileChooser();
+        fc.setTitle("Open video...");
+        fc.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("MP4", "*.mp4"));
+        String folderPath = model.getProperty(BASE_FOLDER_CHOOSE_PROP);
+        File initialFolder = folderPath == null ? null : new File(folderPath);
+        if(initialFolder == null || !initialFolder.exists()) {
+            initialFolder = new File(System.getProperty("user.home"), "Desktop");
+        }
+        if(initialFolder.exists()) {
+            fc.setInitialDirectory(initialFolder);
+        }
+
+        File cf = fc.showOpenDialog(null);
+        if(cf == null) {
+            return null;
+        }
+
+        display("Choosed file: {}", cf);
+
+        model.setProperty(BASE_FOLDER_CHOOSE_PROP, JkFiles.getParent(cf.toPath()).toAbsolutePath().toString());
+
+        return new JkVideoPlayerF1(cf.toPath());
+    }
+
     @Override
     public void stop() {
-        videoPlayer.closePlayer();
-        logger.info("Closed video-player");
+        if(videoPlayer != null) {
+            videoPlayer.closePlayer();
+            logger.info("Closed video-player");
+        }
     }
 
 }

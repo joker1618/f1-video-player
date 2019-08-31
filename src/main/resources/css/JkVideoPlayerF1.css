@@ -125,7 +125,7 @@
 
 }
 .bookmarkPane .customGrid .button {
-    -fx-background-color: PINK;
+    -fx-background-color: #b3ffff;
     -text-color: BLACK;
 }
 .bookmarkPane .customGrid .cellBox {
