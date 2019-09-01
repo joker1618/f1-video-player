@@ -34,16 +34,16 @@ public class PlayerLauncher extends Application {
     private static final String BASE_FOLDER_CHOOSE_PROP = "base.folder.choose";
 
     public static void main(String[] args) {
-        Path folder = Paths.get("video-files");
-        String fnContains = "abu dhab";
+//        Path folder = Paths.get("video-files");
+//        String fnContains = "abu dhabXX";
 
         scenicView = args.length > 0 && "-sv".equals(args[0]);
 
-        Path videoPath;
-        if(args.length > 1) {
+        Path videoPath = null;
+        if(args.length == 2) {
             videoPath = Paths.get(args[1]);
-        } else {
-            videoPath = JkFiles.findFile(folder, false, p -> StringUtils.containsIgnoreCase(p.getFileName().toString(), fnContains));
+//        } else {
+//            videoPath = JkFiles.findFile(folder, false, p -> StringUtils.containsIgnoreCase(p.getFileName().toString(), fnContains));
         }
         if(videoPath != null && Files.exists(videoPath)) {
             videoPlayer = new JkVideoPlayerF1(videoPath);
