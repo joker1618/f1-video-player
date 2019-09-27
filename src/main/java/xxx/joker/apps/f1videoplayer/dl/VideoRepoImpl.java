@@ -1,7 +1,7 @@
-package xxx.joker.apps.f1videoplayer.v2.dl;
+package xxx.joker.apps.f1videoplayer.dl;
 
-import xxx.joker.apps.f1videoplayer.v2.ctx.Const;
-import xxx.joker.apps.f1videoplayer.v2.dl.entities.F1Video;
+import xxx.joker.apps.f1videoplayer.ctx.Const;
+import xxx.joker.apps.f1videoplayer.dl.entities.F1Video;
 import xxx.joker.libs.core.files.JkEncryption;
 import xxx.joker.libs.datalayer.JkRepoFile;
 
@@ -10,12 +10,16 @@ import java.nio.file.Paths;
 
 public class VideoRepoImpl extends JkRepoFile implements VideoRepo {
 
+    private static final String PKG_ENTITIES = "xxx.joker.apps.f1videoplayer.repo.entities";
     private static final String PROP_LAST_OPENED_FOLDER = "base.folder.choose";
 
     private static VideoRepoImpl instance;
 
     private VideoRepoImpl() {
-        super(Const.REPO_FOLDER, Const.DB_NAME, "xxx.joker.apps.f1videoplayer.v2.dl.entities");
+        super(Const.REPO_FOLDER, Const.DB_NAME, PKG_ENTITIES);
+    }
+    protected VideoRepoImpl(Path repoFolder, String dbName) {
+        super(repoFolder, dbName, PKG_ENTITIES);
     }
 
     protected static synchronized VideoRepo getInstance() {

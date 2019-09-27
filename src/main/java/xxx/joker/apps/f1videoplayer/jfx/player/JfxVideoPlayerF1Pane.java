@@ -1,4 +1,4 @@
-package xxx.joker.apps.f1videoplayer.v2.jfx.player;
+package xxx.joker.apps.f1videoplayer.jfx.player;
 
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -22,12 +22,11 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import xxx.joker.apps.f1videoplayer.v2.dl.entities.F1Video;
-import xxx.joker.apps.f1videoplayer.v2.jfx.util.IconProvider;
+import xxx.joker.apps.f1videoplayer.dl.entities.F1Video;
+import xxx.joker.apps.f1videoplayer.jfx.util.IconProvider;
 import xxx.joker.libs.core.datetime.JkDuration;
 import xxx.joker.libs.core.files.JkFiles;
 import xxx.joker.libs.core.javafx.JfxUtil;
-import xxx.joker.libs.core.utils.JkConsole;
 
 import java.nio.file.Path;
 import java.time.temporal.ChronoUnit;

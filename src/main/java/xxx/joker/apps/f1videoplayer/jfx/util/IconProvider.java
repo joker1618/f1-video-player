@@ -1,4 +1,4 @@
-package xxx.joker.apps.f1videoplayer.v2.jfx.util;
+package xxx.joker.apps.f1videoplayer.jfx.util;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

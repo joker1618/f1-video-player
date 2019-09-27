@@ -1,4 +1,4 @@
-package xxx.joker.apps.f1videoplayer.v2.dl.entities;
+package xxx.joker.apps.f1videoplayer.dl.entities;
 
 import xxx.joker.libs.core.datetime.JkDuration;
 import xxx.joker.libs.datalayer.design.RepoEntity;

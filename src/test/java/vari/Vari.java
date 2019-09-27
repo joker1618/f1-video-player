@@ -1,30 +1,19 @@
 package vari;
 
-import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
-import xxx.joker.apps.f1videoplayer.v1.model.VideoModelImpl;
-import xxx.joker.apps.f1videoplayer.v2.dl.entities.F1Video;
-import xxx.joker.libs.core.files.JkEncryption;
+import xxx.joker.apps.f1videoplayer.dl.entities.F1Video;
 import xxx.joker.libs.core.files.JkFiles;
 import xxx.joker.libs.core.format.JkFormatter;
-import xxx.joker.libs.core.lambdas.JkStreams;
-import xxx.joker.libs.core.runtimes.JkEnvironment;
 import xxx.joker.libs.core.runtimes.JkReflection;
-import xxx.joker.libs.core.runtimes.JkRuntime;
-import xxx.joker.libs.core.tests.JkTests;
-import xxx.joker.libs.core.utils.JkConsole;
-import xxx.joker.libs.core.web.JkWeb;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 
 import static xxx.joker.libs.core.utils.JkConsole.display;
 import static xxx.joker.libs.core.utils.JkConsole.displayColl;
-import static xxx.joker.libs.core.utils.JkStrings.strf;
 
 public class Vari {
 

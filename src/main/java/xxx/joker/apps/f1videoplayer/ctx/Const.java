@@ -1,4 +1,4 @@
-package xxx.joker.apps.f1videoplayer.v2.ctx;
+package xxx.joker.apps.f1videoplayer.ctx;
 
 import xxx.joker.libs.core.runtimes.JkEnvironment;
 

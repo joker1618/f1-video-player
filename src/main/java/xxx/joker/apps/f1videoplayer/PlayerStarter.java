@@ -1,7 +1,6 @@
-package xxx.joker.apps.f1videoplayer.v2;
+package xxx.joker.apps.f1videoplayer;
 
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.stage.FileChooser;
@@ -9,13 +8,12 @@ import javafx.stage.Stage;
 import org.scenicview.ScenicView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import xxx.joker.apps.f1videoplayer.v2.ctx.Const;
-import xxx.joker.apps.f1videoplayer.v2.dl.VideoRepo;
-import xxx.joker.apps.f1videoplayer.v2.dl.entities.F1Video;
-import xxx.joker.apps.f1videoplayer.v2.jfx.player.JfxVideoPlayerF1Pane;
+import xxx.joker.apps.f1videoplayer.ctx.Const;
+import xxx.joker.apps.f1videoplayer.dl.VideoRepo;
+import xxx.joker.apps.f1videoplayer.dl.entities.F1Video;
+import xxx.joker.apps.f1videoplayer.jfx.player.JfxVideoPlayerF1Pane;
 import xxx.joker.libs.core.files.JkFiles;
 import xxx.joker.libs.core.runtimes.JkEnvironment;
-import xxx.joker.libs.core.runtimes.JkRuntime;
 
 import java.io.File;
 import java.nio.file.Files;

@@ -1,10 +1,10 @@
 package vari;
 
-import xxx.joker.apps.f1videoplayer.v1.model.VideoModelImpl;
+import xxx.joker.apps.f1videoplayer.dl.VideoRepoImpl;
 
 import java.nio.file.Path;
 
-public class VideoModelDev extends VideoModelImpl {
+public class VideoModelDev extends VideoRepoImpl {
 
     public VideoModelDev(Path repoFolder, String dbName) {
         super(repoFolder, dbName);
