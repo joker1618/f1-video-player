@@ -1,7 +1,7 @@
-package xxx.joker.apps.f1videoplayer.model;
+package xxx.joker.apps.f1videoplayer.v1.model;
 
-import xxx.joker.apps.f1videoplayer.common.Const;
-import xxx.joker.apps.f1videoplayer.model.entities.F1Video;
+import xxx.joker.apps.f1videoplayer.v1.common.Const;
+import xxx.joker.apps.f1videoplayer.v2.dl.entities.F1Video;
 import xxx.joker.libs.core.files.JkEncryption;
 import xxx.joker.libs.datalayer.JkRepoFile;
 
@@ -13,14 +13,16 @@ public class VideoModelImpl extends JkRepoFile implements VideoModel {
 
     private static final VideoModel model = new VideoModelImpl();
 
-    private VideoModelImpl() {
-        super(Const.REPO_FOLDER, Const.DB_NAME, "xxx.joker.apps.f1videoplayer.model.entities");
+    protected VideoModelImpl() {
+        super(Const.REPO_FOLDER, Const.DB_NAME, "xxx.joker.apps.f1videoplayer.v2.dl.entities");
+    }
+    protected VideoModelImpl(Path repoFolder, String dbName) {
+        super(repoFolder, dbName, "xxx.joker.apps.f1videoplayer.v2.dl.entities");
     }
 
     public static VideoModel getModel() {
         return model;
     }
-
 
     @Override
     public F1Video getOrAddF1Video(Path videoPath) {

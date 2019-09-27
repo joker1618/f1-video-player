@@ -1,7 +1,8 @@
-package xxx.joker.apps.f1videoplayer.model.entities;
+package xxx.joker.apps.f1videoplayer.v2.dl.entities;
 
 import xxx.joker.libs.core.datetime.JkDuration;
-import xxx.joker.libs.datalayer.design.*;
+import xxx.joker.libs.datalayer.design.RepoEntity;
+import xxx.joker.libs.datalayer.design.RepoField;
 
 import java.util.Set;
 import java.util.TreeSet;

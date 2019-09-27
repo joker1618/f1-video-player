@@ -3,10 +3,11 @@
    -text-color: #99ccff;
    -fx-background-color: -bg-color;
    -fx-font-size: 14;
+   -fx-border-color: -text-color;
+   -fx-border-width: 0;
 }
 
 .borderedRoot {
-    -fx-border-color: -text-color;
     -fx-border-width: 2;
 }
 
@@ -14,7 +15,6 @@
 .headingBox {
     -fx-padding: 7 5 7 5;
     -fx-alignment: CENTER;
-    -fx-border-color: -text-color;
     -fx-border-width: 0 0 1 0;
 }
 
@@ -30,13 +30,11 @@
     -fx-min-height: 40;
     -fx-padding: 0 0 3 0;
     -fx-text-alignment: CENTER;
-    -fx-border-color: -text-color;
     -fx-border-width: 1;
 }
 
 /* Media bottom bar */
 .mediaBarPane {
-    -fx-border-color: -text-color;
     -fx-border-width: 1 0 0 0;
     -fx-alignment: CENTER;
     -fx-spacing: 10;
@@ -57,12 +55,11 @@
     -fx-spacing: 5;
 }
 .mediaBarPane .barBoxSmallBtn .button {
-    -fx-min-width: 40;
+    -fx-pref-width: 40;
 }
 
 .mediaBarPane .label {
-    -fx-min-width: 60.0;
-    -fx-max-width: 50.0;
+    -fx-pref-width: 60.0;
     -fx-alignment: CENTER;
 }
 
@@ -71,8 +68,7 @@
 }
 .mediaBarPane .seekBox .button {
     /*-fx-font-size: 8;*/
-    -fx-min-width: 50.0;
-    -fx-max-width: 50.0;
+    -fx-pref-width: 50.0;
 }
 
 /* sliders style */
@@ -87,7 +83,6 @@
 }
 
 .bookmarkPane {
-    -fx-border-color: -text-color;
     -fx-border-width: 0 0 0 1;
     -fx-alignment: CENTER;
     -fx-spacing: 10;
@@ -105,12 +100,10 @@
     -fx-pref-width: 120;
     -fx-pref-height: 50;
     -fx-border-width: 1;
-    -fx-border-color: -text-color;
 }
 
 .bookmarkPane .headerBox {
     -fx-border-width: 0 0 1 0;
-    -fx-border-color: -text-color;
 }
 
 .bookmarkPane .text {

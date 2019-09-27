@@ -1,5 +1,7 @@
-.centered   { -fx-alignment: CENTER }
-.hcenter    { -fx-alignment: TOP-CENTER }
+.centered      { -fx-alignment: CENTER }
+.top-center    { -fx-alignment: TOP-CENTER }
+.center-left   { -fx-alignment: CENTER-LEFT }
+.center-right  { -fx-alignment: CENTER-RIGHT }
 
 .bgPurple   { -fx-background-color: PURPLE }
 .bgRed      { -fx-background-color: RED }

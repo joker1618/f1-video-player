@@ -1,4 +1,4 @@
-package xxx.joker.apps.f1videoplayer.view;
+package xxx.joker.apps.f1videoplayer.v1.view;
 
 import javafx.scene.Node;
 import javafx.scene.control.Label;

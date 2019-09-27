@@ -1,0 +1,122 @@
+* {
+    -bg-color: BLACK;
+    -text-color: #99ccff;
+
+    -fx-background-color: -bg-color;
+    -fx-text-fill: -text-color;
+    -fx-border-width: 0;
+    -fx-border-color: -text-color;
+}
+
+.borderedRoot {
+    -fx-border-width: 2;
+}
+
+/* Header box */
+.headingBox {
+    -fx-padding: 10;
+    -fx-alignment: CENTER;
+    -fx-border-width: 0 0 1 0;
+}
+
+.headingBox .label,
+.mediaBarPane .label {
+    -fx-font-weight: BOLD;
+}
+
+/* Video Player */
+
+/* Media bottom bar */
+.mediaBarPane {
+    -fx-border-width: 1 0 0 0;
+    -fx-alignment: CENTER;
+    -fx-spacing: 20;
+    -fx-padding: 8;
+}
+
+.mediaBarPane .lessSpacingBox {
+    -fx-alignment: CENTER;
+    -fx-spacing: 5;
+}
+.mediaBarPane .lessSpacingBox.sliderBox {
+    -fx-spacing: 15;
+}
+
+.mediaBarPane .label {
+    -fx-pref-width: 40.0;
+}
+.mediaBarPane .sliderBox .label {
+    -fx-pref-width: 90.0;
+}
+.mediaBarPane .plusMinusBox .label {
+    -fx-pref-width: 25.0;
+    -fx-alignment: CENTER;
+}
+
+.mediaBarPane .button {
+    -fx-padding: 0;
+}
+
+/* sliders style */
+.mediaBarPane .slider .thumb {
+    -fx-padding: 7 2 7 2;
+    -fx-background-color: -text-color;
+}
+
+.mediaBarPane .slider .track {
+    -fx-padding: 1 0 0 0;
+    -fx-background-color: -text-color;
+}
+
+.bookmarkPane {
+    -fx-border-width: 0 0 0 1;
+    -fx-alignment: CENTER;
+    -fx-spacing: 10;
+}
+
+/* BOOKMARKS PANE */
+.bookmarkPane .subBox {
+    -fx-alignment: CENTER;
+    -fx-padding: 20;
+}
+.bookmarkPane .centerBox .scroll-pane {
+    -fx-padding: 0;
+}
+.bookmarkPane .centerBox .scroll-pane .thumb {
+    -fx-background-color: -text-color;
+}
+.bookmarkPane .centerBox .scroll-pane .scroll-bar {
+    -fx-pref-width: 15;
+}
+
+.bookmarkPane .headerBox .button {
+    -fx-pref-width: 120;
+    -fx-pref-height: 50;
+    -fx-border-width: 1;
+}
+
+.bookmarkPane .headerBox {
+    -fx-border-width: 0 0 1 0;
+}
+
+.bookmarkPane .button .text {
+    -fx-font-weight: BOLD;
+}
+.bookmarkPane .headerBox .button .text {
+    -fx-font-size: 16;
+}
+.bookmarkPane .jfxGridBox .label .text,
+.bookmarkPane .jfxGridBox .button .text {
+    -fx-font-size: 14;
+}
+.bookmarkPane .jfxGridBox .button {
+    -fx-background-color: #b3ffff;
+    -fx-text-fill: BLACK;
+}
+.bookmarkPane .jfxGridBox .cellBox {
+    -fx-alignment: CENTER;
+}
+.bookmarkPane .jfxGridBox {
+    -fx-hgap: 15;
+    -fx-vgap: 15;
+}

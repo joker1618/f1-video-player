@@ -1,9 +1,8 @@
-package xxx.joker.apps.f1videoplayer.common;
+package xxx.joker.apps.f1videoplayer.v1.common;
 
 import xxx.joker.libs.core.runtimes.JkEnvironment;
 
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class Const {
 

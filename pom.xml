@@ -61,7 +61,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>xxx.joker.apps.f1videoplayer.PlayerLauncher</mainClass>
+                            <mainClass>xxx.joker.apps.f1videoplayer.v1.PlayerLauncher</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
@@ -78,32 +78,32 @@
                     </execution>
                 </executions>
             </plugin>
-            <!-- Copy JAR to 'Joker apps' folder -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>3.0.2</version>
-                <executions>
-                    <execution>
-                        <id>copy-jar</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${joker.apps.folder}/f1-video-player</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>${project.build.directory}</directory>
-                                    <includes>
-                                        <include>f1-video-player-${project.version}-jar-with-dependencies.jar</include>
-                                    </includes>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+<!--            &lt;!&ndash; Copy JAR to 'Joker apps' folder &ndash;&gt;-->
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-resources-plugin</artifactId>-->
+<!--                <version>3.0.2</version>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <id>copy-jar</id>-->
+<!--                        <phase>verify</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>copy-resources</goal>-->
+<!--                        </goals>-->
+<!--                        <configuration>-->
+<!--                            <outputDirectory>${joker.apps.folder}/f1-video-player</outputDirectory>-->
+<!--                            <resources>-->
+<!--                                <resource>-->
+<!--                                    <directory>${project.build.directory}</directory>-->
+<!--                                    <includes>-->
+<!--                                        <include>f1-video-player-${project.version}-jar-with-dependencies.jar</include>-->
+<!--                                    </includes>-->
+<!--                                </resource>-->
+<!--                            </resources>-->
+<!--                        </configuration>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
         </plugins>
     </build>
 </project>

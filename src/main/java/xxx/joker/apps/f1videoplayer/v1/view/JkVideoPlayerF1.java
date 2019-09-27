@@ -1,4 +1,4 @@
-package xxx.joker.apps.f1videoplayer.view;
+package xxx.joker.apps.f1videoplayer.v1.view;
 
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -16,9 +16,9 @@ import javafx.scene.media.MediaView;
 import javafx.util.Duration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import xxx.joker.apps.f1videoplayer.model.VideoModel;
-import xxx.joker.apps.f1videoplayer.model.VideoModelImpl;
-import xxx.joker.apps.f1videoplayer.model.entities.F1Video;
+import xxx.joker.apps.f1videoplayer.v1.model.VideoModel;
+import xxx.joker.apps.f1videoplayer.v1.model.VideoModelImpl;
+import xxx.joker.apps.f1videoplayer.v2.dl.entities.F1Video;
 import xxx.joker.libs.core.datetime.JkDuration;
 import xxx.joker.libs.core.files.JkFiles;
 

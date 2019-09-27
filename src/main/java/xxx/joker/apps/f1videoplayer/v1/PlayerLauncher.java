@@ -1,4 +1,4 @@
-package xxx.joker.apps.f1videoplayer;
+package xxx.joker.apps.f1videoplayer.v1;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -6,17 +6,15 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import org.apache.commons.lang3.StringUtils;
 import org.scenicview.ScenicView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import xxx.joker.apps.f1videoplayer.model.VideoModel;
-import xxx.joker.apps.f1videoplayer.model.VideoModelImpl;
-import xxx.joker.apps.f1videoplayer.view.JkVideoPlayerF1;
+import xxx.joker.apps.f1videoplayer.v1.model.VideoModel;
+import xxx.joker.apps.f1videoplayer.v1.model.VideoModelImpl;
+import xxx.joker.apps.f1videoplayer.v1.view.JkVideoPlayerF1;
 import xxx.joker.libs.core.files.JkFiles;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -40,11 +38,13 @@ public class PlayerLauncher extends Application {
         scenicView = args.length > 0 && "-sv".equals(args[0]);
 
         Path videoPath = null;
-        if(args.length == 2) {
-            videoPath = Paths.get(args[1]);
+        int index = scenicView && args.length == 2 ? 1 : !scenicView && args.length == 1 ? 0 : -1;
+        if(index != -1) {
+            videoPath = Paths.get(args[index]);
 //        } else {
 //            videoPath = JkFiles.findFile(folder, false, p -> StringUtils.containsIgnoreCase(p.getFileName().toString(), fnContains));
         }
+//        videoPath = Paths.get("C:\\Users\\fbarbano\\IdeaProjects\\APPS\\video-manager\\src\\test\\resources\\ert2.mp4");
         if(videoPath != null && Files.exists(videoPath)) {
             videoPlayer = new JkVideoPlayerF1(videoPath);
         }
