@@ -1,7 +1,7 @@
 package vari;
 
 import org.junit.Test;
-import xxx.joker.apps.f1videoplayer.dl.entities.F1Video;
+import xxx.joker.apps.f1videoplayer.repo.entities.F1Video;
 import xxx.joker.libs.core.files.JkFiles;
 import xxx.joker.libs.core.format.JkFormatter;
 import xxx.joker.libs.core.runtimes.JkReflection;

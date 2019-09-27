@@ -1,6 +1,6 @@
-package xxx.joker.apps.f1videoplayer.dl;
+package xxx.joker.apps.f1videoplayer.repo;
 
-import xxx.joker.apps.f1videoplayer.dl.entities.F1Video;
+import xxx.joker.apps.f1videoplayer.repo.entities.F1Video;
 import xxx.joker.libs.datalayer.JkRepo;
 
 import java.nio.file.Path;

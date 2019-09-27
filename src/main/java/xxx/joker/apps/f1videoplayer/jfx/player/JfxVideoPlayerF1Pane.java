@@ -22,7 +22,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import xxx.joker.apps.f1videoplayer.dl.entities.F1Video;
+import xxx.joker.apps.f1videoplayer.repo.entities.F1Video;
 import xxx.joker.apps.f1videoplayer.jfx.util.IconProvider;
 import xxx.joker.libs.core.datetime.JkDuration;
 import xxx.joker.libs.core.files.JkFiles;
