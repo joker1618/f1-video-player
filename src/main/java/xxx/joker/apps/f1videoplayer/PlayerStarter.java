@@ -10,11 +10,10 @@ import org.scenicview.ScenicView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xxx.joker.apps.f1videoplayer.ctx.Const;
+import xxx.joker.apps.f1videoplayer.jfx.player.JfxVideoPlayerF1;
 import xxx.joker.apps.f1videoplayer.repo.VideoRepo;
 import xxx.joker.apps.f1videoplayer.repo.entities.F1Video;
-import xxx.joker.apps.f1videoplayer.jfx.player.JfxVideoPlayerF1Pane;
 import xxx.joker.libs.core.datetime.JkDateTime;
-import xxx.joker.libs.core.datetime.JkDates;
 import xxx.joker.libs.core.files.JkFiles;
 import xxx.joker.libs.core.format.JkFormatter;
 import xxx.joker.libs.core.runtimes.JkEnvironment;
@@ -23,8 +22,6 @@ import xxx.joker.libs.core.runtimes.JkReflection;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static xxx.joker.libs.core.utils.JkConsole.display;
@@ -36,7 +33,7 @@ public class PlayerStarter  extends Application {
 
     private static final String USAGE = "f1videoplayer  [-sv]";
 
-    private JfxVideoPlayerF1Pane videoPlayerPane;
+    private JfxVideoPlayerF1 videoPlayerPane;
 
     public static void main(String[] args) {
 //        JkEnvironment.setAppsFolder(Paths.get(""));
@@ -60,6 +57,8 @@ public class PlayerStarter  extends Application {
             scene.getStylesheets().add(getClass().getResource("/css/common.css").toExternalForm());
 
             // Show stage
+            primaryStage.setOnCloseRequest(e -> Platform.exit());
+            primaryStage.setTitle("F1 VIDEO PLAYER");
             primaryStage.setScene(scene);
             primaryStage.setMaximized(true);
             primaryStage.show();
@@ -70,7 +69,7 @@ public class PlayerStarter  extends Application {
         }
     }
 
-    private JfxVideoPlayerF1Pane createVideoPlayer() {
+    private JfxVideoPlayerF1 createVideoPlayer() {
         VideoRepo repo = VideoRepo.getRepo();
         FileChooser fc = new FileChooser();
         fc.setTitle("Open video...");
@@ -91,7 +90,7 @@ public class PlayerStarter  extends Application {
         repo.setLastOpenedFolder(JkFiles.getParent(cf.toPath()));
 
         F1Video f1Video = repo.getOrAddF1Video(cf.toPath());
-        return new JfxVideoPlayerF1Pane(f1Video, cf.toPath());
+        return new JfxVideoPlayerF1(f1Video, cf.toPath());
     }
 
     private void checkForUpdates() {

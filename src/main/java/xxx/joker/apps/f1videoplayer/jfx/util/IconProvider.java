@@ -2,6 +2,7 @@ package xxx.joker.apps.f1videoplayer.jfx.util;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import xxx.joker.libs.core.cache.JkCache;
 
 import java.net.URL;
 
@@ -24,10 +25,21 @@ public class IconProvider {
     public static final String PLAY = "play.png";
     public static final String PLUS = "plus.png";
     public static final String PREVIOUS = "previous.png";
+    public static final String VOLUME_HIGH = "volumeHigh.png";
+    public static final String VOLUME_LOW = "volumeLow.png";
+    public static final String VOLUME_MIDDLE = "volumeMiddle.png";
+    public static final String VOLUME_MUTE = "volumeMute.png";
+
+    private JkCache<String, Image> imageCache = new JkCache<>();
 
     public Image getIconImage(String iconName) {
-        URL url = getClass().getResource(strf("/icons/{}", iconName));
-        return new Image(url.toExternalForm());
+        Image image = imageCache.get(iconName);
+        if(image == null) {
+            URL url = getClass().getResource(strf("/icons/{}", iconName));
+            image = new Image(url.toExternalForm());
+            imageCache.add(iconName, image);
+        }
+        return image;
     }
 
     public ImageView getIcon(String iconName, Double fitSquareSide) {

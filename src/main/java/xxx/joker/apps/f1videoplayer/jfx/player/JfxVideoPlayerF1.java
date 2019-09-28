@@ -1,20 +1,20 @@
 package xxx.joker.apps.f1videoplayer.jfx.player;
 
 import javafx.application.Platform;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
 import javafx.geometry.Pos;
-import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.*;
 import javafx.scene.media.Media;
@@ -22,7 +22,6 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xxx.joker.apps.f1videoplayer.repo.entities.F1Video;
@@ -31,6 +30,7 @@ import xxx.joker.libs.core.datetime.JkDuration;
 import xxx.joker.libs.core.files.JkFiles;
 import xxx.joker.libs.core.javafx.JfxUtil;
 
+import java.io.BufferedWriter;
 import java.nio.file.Path;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -39,10 +39,11 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static xxx.joker.libs.core.javafx.JfxControls.createHBox;
+import static xxx.joker.libs.core.utils.JkConsole.display;
 
-public class JfxVideoPlayerF1Pane extends BorderPane {
+public class JfxVideoPlayerF1 extends BorderPane {
 
-	private static Logger logger = LoggerFactory.getLogger(JfxVideoPlayerF1Pane.class);
+	private static Logger logger = LoggerFactory.getLogger(JfxVideoPlayerF1.class);
 
 	private Path videoPath;
 
@@ -52,6 +53,7 @@ public class JfxVideoPlayerF1Pane extends BorderPane {
 
 	private Label lblActualTime;
 	private Slider sliderTime;
+	private ImageView ivVolume;
 	private Slider sliderVolume;
 	private Label lblVolume;
 
@@ -60,8 +62,8 @@ public class JfxVideoPlayerF1Pane extends BorderPane {
 	private IconProvider iconProvider;
 	private List<Double> rateList = Arrays.asList(0.1, 0.3, 0.5, 1.0, 2.0, 5.0);
 
-	public JfxVideoPlayerF1Pane(F1Video f1Video, Path videoPath) {
-		logger.info("Creating new JfxVideoPlayerF1Pane for: video={}, path={}", f1Video, videoPath);
+	public JfxVideoPlayerF1(F1Video f1Video, Path videoPath) {
+		logger.info("Creating new JfxVideoPlayerF1 for: video={}, path={}", f1Video, videoPath);
 
 		this.videoPath = videoPath;
 		this.iconProvider = new IconProvider();
@@ -74,7 +76,7 @@ public class JfxVideoPlayerF1Pane extends BorderPane {
 		getChildren().forEach(ch -> ch.getStyleClass().add("subPane"));
 
 		getStyleClass().add("borderedRoot");
-		getStylesheets().add(getClass().getResource("/css/JfxVideoPlayerF1Pane.css").toExternalForm());
+		getStylesheets().add(getClass().getResource("/css/JfxVideoPlayerF1.css").toExternalForm());
 	}
 
 	public void play() {
@@ -216,12 +218,26 @@ public class JfxVideoPlayerF1Pane extends BorderPane {
 		mediaBar.getChildren().add(hboxSeek);
 
 		// volume
+		ivVolume = iconProvider.getIcon(IconProvider.VOLUME_HIGH, btnSizeSmall);
+		Button btnVolume = new Button();
+		btnVolume.setGraphic(ivVolume);
+		SimpleDoubleProperty lastVolumeValue = new SimpleDoubleProperty(1.0);
+		btnVolume.setOnAction(e -> {
+			MediaPlayer mp = mediaView.getMediaPlayer();
+			if(mp.getVolume() == 0) {
+				mp.setVolume(lastVolumeValue.get());
+			} else {
+				lastVolumeValue.set(mp.getVolume());
+				mp.setVolume(0d);
+			}
+			updateVolumeIcon();
+		});
 		sliderVolume = new Slider();
 		sliderVolume.setPrefWidth(100);
 		sliderVolume.setMaxWidth(Region.USE_PREF_SIZE);
 		sliderVolume.setMinWidth(30);
 		lblVolume = new Label("");
-		HBox hboxVol = createHBox("lessSpacingBox", sliderVolume, lblVolume);
+		HBox hboxVol = createHBox("lessSpacingBox", btnVolume, sliderVolume, lblVolume);
 		mediaBar.getChildren().add(hboxVol);
 
 		initMediaBarBindings(ivPlayPause);
@@ -307,6 +323,17 @@ public class JfxVideoPlayerF1Pane extends BorderPane {
 		return seekButtons;
 	}
 
+	private void updateVolumeIcon() {
+		int vol = (int)(100 * mediaView.getMediaPlayer().getVolume());
+		Image img;
+		if(vol == 0) 		img = iconProvider.getIconImage(IconProvider.VOLUME_MUTE);
+		else if(vol <= 30) 	img = iconProvider.getIconImage(IconProvider.VOLUME_LOW);
+		else if(vol <= 70) 	img = iconProvider.getIconImage(IconProvider.VOLUME_MIDDLE);
+		else 			 	img = iconProvider.getIconImage(IconProvider.VOLUME_HIGH);
+		ivVolume.setImage(img);
+		updateValues();
+	}
+
 	private void initMediaBarBindings(ImageView ivPlayPause) {
 		MediaPlayer mediaPlayer = mediaView.getMediaPlayer();
 
@@ -387,8 +414,10 @@ public class JfxVideoPlayerF1Pane extends BorderPane {
 		});
 		sliderVolume.valueProperty().addListener(ov -> {
 			if (sliderVolume.isValueChanging()) {
-				mediaPlayer.setVolume(sliderVolume.getValue() / 100.0);
-				lblVolume.setText(((int) sliderVolume.getValue()) + "%");
+				double vol = sliderVolume.getValue();
+				mediaPlayer.setVolume(vol / 100.0);
+				lblVolume.setText(((int) vol) + "%");
+				updateVolumeIcon();
 			}
 		});
 	}

@@ -1,5 +1,6 @@
 package xxx.joker.apps.f1videoplayer.repo;
 
+import com.sun.corba.se.impl.io.FVDCodeBaseImpl;
 import xxx.joker.apps.f1videoplayer.ctx.Const;
 import xxx.joker.apps.f1videoplayer.repo.entities.F1Video;
 import xxx.joker.libs.core.files.JkEncryption;
@@ -7,6 +8,7 @@ import xxx.joker.libs.datalayer.JkRepoFile;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 public class VideoRepoImpl extends JkRepoFile implements VideoRepo {
 
@@ -46,5 +48,10 @@ public class VideoRepoImpl extends JkRepoFile implements VideoRepo {
         String md5 = JkEncryption.getMD5(videoPath);
         F1Video f1Video = new F1Video(md5);
         return getOrAddByPk(f1Video);
+    }
+
+    @Override
+    public List<F1Video> getVideos() {
+        return getList(F1Video.class);
     }
 }

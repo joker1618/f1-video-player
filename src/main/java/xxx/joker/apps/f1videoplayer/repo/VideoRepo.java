@@ -4,6 +4,7 @@ import xxx.joker.apps.f1videoplayer.repo.entities.F1Video;
 import xxx.joker.libs.datalayer.JkRepo;
 
 import java.nio.file.Path;
+import java.util.List;
 
 public interface VideoRepo extends JkRepo {
 
@@ -15,4 +16,6 @@ public interface VideoRepo extends JkRepo {
     void setLastOpenedFolder(Path folder);
 
     F1Video getOrAddF1Video(Path videoPath);
+    List<F1Video> getVideos();
+
 }
