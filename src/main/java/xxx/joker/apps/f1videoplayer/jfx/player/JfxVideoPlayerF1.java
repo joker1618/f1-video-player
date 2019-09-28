@@ -176,6 +176,8 @@ public class JfxVideoPlayerF1 extends BorderPane {
 		double btnSize = 40d;
 		double btnSizeSmall = 30d;
 
+		MediaPlayer mplayer = mediaView.getMediaPlayer();
+
 		// Play button
 		btnPlay = new Button();
 		ImageView ivPlayPause = iconProvider.getIcon(IconProvider.PLAY, btnSize);
@@ -196,7 +198,7 @@ public class JfxVideoPlayerF1 extends BorderPane {
 		// Label for total time
 		Label lblTotalTime = new Label();
 		lblTotalTime.getStyleClass().add("center-left");
-		mediaView.getMediaPlayer().totalDurationProperty().addListener((obs,o,n) -> lblTotalTime.setText(JkDuration.of(n).toStringElapsed(true, ChronoUnit.MINUTES)));
+		mplayer.totalDurationProperty().addListener((obs, o, n) -> lblTotalTime.setText(JkDuration.of(n).toStringElapsed(true, ChronoUnit.MINUTES)));
 		HBox hboxTime = createHBox("lessSpacingBox sliderBox", lblActualTime, sliderTime, lblTotalTime);
 		HBox.setHgrow(hboxTime, Priority.ALWAYS);
 		mediaBar.getChildren().add(hboxTime);
@@ -209,7 +211,7 @@ public class JfxVideoPlayerF1 extends BorderPane {
 		btnPlus.setGraphic(iconProvider.getIcon(IconProvider.PLUS, btnSizeSmall));
 		btnPlus.setOnAction(e -> setVideoRate(false));
 		Label lblRate = new Label("1.0");
-		mediaView.getMediaPlayer().rateProperty().addListener((obs,o,n) -> lblRate.setText(n.toString()));
+		mplayer.rateProperty().addListener((obs, o, n) -> lblRate.setText(n.toString()));
 		HBox hboxRate = createHBox("lessSpacingBox plusMinusBox", btnMinus, lblRate, btnPlus);
 		mediaBar.getChildren().add(hboxRate);
 
@@ -222,13 +224,17 @@ public class JfxVideoPlayerF1 extends BorderPane {
 		Button btnVolume = new Button();
 		btnVolume.setGraphic(ivVolume);
 		SimpleDoubleProperty lastVolumeValue = new SimpleDoubleProperty(1.0);
+		mplayer.volumeProperty().addListener(obs -> {
+			if(mplayer.getVolume() > 0d) {
+				lastVolumeValue.setValue(mplayer.getVolume());
+			}
+		});
 		btnVolume.setOnAction(e -> {
-			MediaPlayer mp = mediaView.getMediaPlayer();
-			if(mp.getVolume() == 0) {
-				mp.setVolume(lastVolumeValue.get());
+			if(mplayer.getVolume() == 0) {
+				mplayer.setVolume(lastVolumeValue.get());
 			} else {
-				lastVolumeValue.set(mp.getVolume());
-				mp.setVolume(0d);
+				lastVolumeValue.set(mplayer.getVolume());
+				mplayer.setVolume(0d);
 			}
 			updateVolumeIcon();
 		});
@@ -442,7 +448,7 @@ public class JfxVideoPlayerF1 extends BorderPane {
 				f1Video.getMarks().add(btime);
 			}
 		});
-		HBox headerBox = createHBox("subBox headerBox", btnMark);
+		HBox headerBox = createHBox("subBox boxMark", btnMark);
 		bookmarkPane.setTop(headerBox);
 
 		GridPane gridPane = new GridPane();
@@ -462,7 +468,7 @@ public class JfxVideoPlayerF1 extends BorderPane {
 		bookmarks.setAll(f1Video.getMarks());
 		ScrollPane scrollPane = new ScrollPane(gridPane);
 		gridPane.widthProperty().addListener(obs -> scrollPane.setPrefWidth(gridPane.getWidth() + 30));
-		HBox gpBox = createHBox("subBox centerBox", scrollPane);
+		HBox gpBox = createHBox("subBox boxSeekTimes", scrollPane);
 		bookmarkPane.setCenter(gpBox);
 
 		return bookmarkPane;

@@ -79,30 +79,30 @@
     -fx-alignment: CENTER;
     -fx-padding: 20;
 }
-.bookmarkPane .centerBox .scroll-pane {
+.bookmarkPane .boxSeekTimes .scroll-pane {
     -fx-padding: 0;
 }
-.bookmarkPane .centerBox .scroll-pane .thumb {
+.bookmarkPane .boxSeekTimes .scroll-pane .thumb {
     -fx-background-color: -text-color;
 }
-.bookmarkPane .centerBox .scroll-pane .scroll-bar {
+.bookmarkPane .boxSeekTimes .scroll-pane .scroll-bar {
     -fx-pref-width: 15;
 }
 
-.bookmarkPane .headerBox .button {
+.bookmarkPane .boxMark .button {
     -fx-pref-width: 120;
     -fx-pref-height: 50;
     -fx-border-width: 1;
 }
 
-.bookmarkPane .headerBox {
+.bookmarkPane .boxMark {
     -fx-border-width: 0 0 1 0;
 }
 
 .bookmarkPane .button .text {
     -fx-font-weight: BOLD;
 }
-.bookmarkPane .headerBox .button .text {
+.bookmarkPane .boxMark .button .text {
     -fx-font-size: 16;
 }
 .bookmarkPane .jfxGridBox .label .text,
