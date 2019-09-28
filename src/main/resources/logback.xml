@@ -9,7 +9,7 @@
         </encoder>
     </appender>
 
-    <logger name="xxx.joker.apps.f1videoplayer" level="trace" additivity="false">
+    <logger name="xxx.joker.apps.f1videoplayer" level="debug" additivity="false">
         <appender-ref ref="STDOUT"/>
     </logger>
 
