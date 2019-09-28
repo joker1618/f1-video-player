@@ -33,7 +33,7 @@ public class PlayerStarter  extends Application {
 
     private static final String USAGE = "f1videoplayer  [-sv]";
 
-    private JfxVideoPlayerF1 videoPlayerPane;
+    private JfxVideoPlayerF1 videoPlayer;
 
     public static void main(String[] args) {
 //        JkEnvironment.setAppsFolder(Paths.get(""));
@@ -46,14 +46,14 @@ public class PlayerStarter  extends Application {
     public void start(Stage primaryStage) {
         checkForUpdates();
 
-        videoPlayerPane = createVideoPlayer();
-        if(videoPlayerPane == null) {
+        videoPlayer = createVideoPlayer();
+        if(videoPlayer == null) {
             Platform.exit();
         } else {
             // Create scene
             Group root = new Group();
             Scene scene = new Scene(root);
-            scene.setRoot(videoPlayerPane);
+            scene.setRoot(videoPlayer);
             scene.getStylesheets().add(getClass().getResource("/css/common.css").toExternalForm());
 
             // Show stage
@@ -66,6 +66,8 @@ public class PlayerStarter  extends Application {
             if (Const.showScenicView) {
                 ScenicView.show(scene);
             }
+
+            videoPlayer.play();
         }
     }
 
@@ -126,8 +128,8 @@ public class PlayerStarter  extends Application {
 
     @Override
     public void stop() {
-        if(videoPlayerPane != null) {
-            videoPlayerPane.closePlayer();
+        if(videoPlayer != null) {
+            videoPlayer.closePlayer();
             VideoRepo.getRepo().commit();
             logger.info("Closed video-player");
         }
