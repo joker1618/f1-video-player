@@ -7,12 +7,14 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
 import javafx.geometry.Pos;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.*;
 import javafx.scene.media.Media;
@@ -20,6 +22,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xxx.joker.apps.f1videoplayer.repo.entities.F1Video;
@@ -58,6 +61,8 @@ public class JfxVideoPlayerF1Pane extends BorderPane {
 	private List<Double> rateList = Arrays.asList(0.1, 0.3, 0.5, 1.0, 2.0, 5.0);
 
 	public JfxVideoPlayerF1Pane(F1Video f1Video, Path videoPath) {
+		logger.info("Creating new JfxVideoPlayerF1Pane for: video={}, path={}", f1Video, videoPath);
+
 		this.videoPath = videoPath;
 		this.iconProvider = new IconProvider();
 
@@ -89,9 +94,9 @@ public class JfxVideoPlayerF1Pane extends BorderPane {
 	public void closePlayer() {
 		MediaPlayer mediaPlayer = mediaView.getMediaPlayer();
 		if(mediaPlayer.getStatus() != MediaPlayer.Status.DISPOSED) {
-			logger.debug("close media player");
 			mediaPlayer.stop();
 			mediaPlayer.dispose();
+			logger.info("closed media player for file {}", videoPath);
 		}
 	}
 
