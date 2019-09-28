@@ -89,7 +89,7 @@ public class JfxVideoPlayerF1Pane extends BorderPane {
 	public void closePlayer() {
 		MediaPlayer mediaPlayer = mediaView.getMediaPlayer();
 		if(mediaPlayer.getStatus() != MediaPlayer.Status.DISPOSED) {
-			logger.debug("close video player");
+			logger.debug("close media player");
 			mediaPlayer.stop();
 			mediaPlayer.dispose();
 		}
@@ -109,11 +109,6 @@ public class JfxVideoPlayerF1Pane extends BorderPane {
 		Pane fill2 = new Pane();
 		Arrays.asList(fill1, fill2).forEach(f -> HBox.setHgrow(f, Priority.ALWAYS));
 		headingBox.getChildren().addAll(fill1, lblHeading, fill2);
-//
-//		Button btnClose = new Button();
-//		btnClose.setGraphic(iconProvider.getIcon(IconProvider.CLOSE, 40d));
-//		btnClose.setOnAction(e -> JfxUtil.getStage(btnClose).close());
-//		headingBox.getChildren().add(btnClose);
 
 		return headingBox;
 	}
@@ -315,10 +310,8 @@ public class JfxVideoPlayerF1Pane extends BorderPane {
 
 		// play button
 		btnPlay.setOnAction(event -> {
-			logger.trace("button PLAY action");
-
 			MediaPlayer.Status status = mediaPlayer.getStatus();
-			logger.trace("player status: {},  terminated media: {}", status, isMediaTerminated);
+			logger.trace("pressed button PLAY  -  player status: {},  terminated media: {}", status, isMediaTerminated);
 
 			if (status == MediaPlayer.Status.UNKNOWN || status == MediaPlayer.Status.HALTED) {
 				return;
