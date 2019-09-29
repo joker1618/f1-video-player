@@ -1,6 +1,5 @@
 package xxx.joker.apps.f1videoplayer.repo;
 
-import com.sun.corba.se.impl.io.FVDCodeBaseImpl;
 import xxx.joker.apps.f1videoplayer.ctx.Const;
 import xxx.joker.apps.f1videoplayer.repo.entities.F1Video;
 import xxx.joker.libs.core.files.JkEncryption;

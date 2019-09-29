@@ -1,8 +1,6 @@
 package xxx.joker.apps.f1videoplayer.jfx.player;
 
 import javafx.application.Platform;
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
@@ -10,7 +8,6 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -26,13 +23,12 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import xxx.joker.apps.f1videoplayer.repo.entities.F1Video;
 import xxx.joker.apps.f1videoplayer.jfx.util.IconProvider;
+import xxx.joker.apps.f1videoplayer.repo.entities.F1Video;
 import xxx.joker.libs.core.datetime.JkDuration;
 import xxx.joker.libs.core.files.JkFiles;
 import xxx.joker.libs.core.javafx.JfxUtil;
 
-import java.io.BufferedWriter;
 import java.nio.file.Path;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -41,7 +37,6 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static xxx.joker.libs.core.javafx.JfxControls.createHBox;
-import static xxx.joker.libs.core.utils.JkConsole.display;
 import static xxx.joker.libs.core.utils.JkStrings.strf;
 
 public class JfxVideoPlayerF1 extends BorderPane {
