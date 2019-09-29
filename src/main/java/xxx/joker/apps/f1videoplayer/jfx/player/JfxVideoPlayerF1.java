@@ -1,6 +1,8 @@
 package xxx.joker.apps.f1videoplayer.jfx.player;
 
 import javafx.application.Platform;
+import javafx.beans.property.ReadOnlyObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
@@ -34,6 +36,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static xxx.joker.libs.core.javafx.JfxControls.createHBox;
@@ -43,6 +46,7 @@ public class JfxVideoPlayerF1 extends BorderPane {
 
 	private static Logger logger = LoggerFactory.getLogger(JfxVideoPlayerF1.class);
 
+	private F1Video f1Video;
 	private Path videoPath;
 
 	protected MediaView mediaView;
@@ -65,13 +69,14 @@ public class JfxVideoPlayerF1 extends BorderPane {
 	public JfxVideoPlayerF1(F1Video f1Video, Path videoPath) {
 		logger.info("Creating new JfxVideoPlayerF1 for: video={}, path={}", f1Video, videoPath);
 
+		this.f1Video = f1Video;
 		this.videoPath = videoPath;
 		this.iconProvider = new IconProvider();
 
 		setTop(createTopPane());
 		setCenter(createMediaViewPane());
 		setBottom(createMediaBarPane());
-		setRight(createBookmarkPane(f1Video));
+		setRight(createBookmarkPane());
 
 		getChildren().forEach(ch -> ch.getStyleClass().add("subPane"));
 
@@ -195,10 +200,21 @@ public class JfxVideoPlayerF1 extends BorderPane {
 		sliderTime.setMaxWidth(Double.MAX_VALUE);
 
 		// Previous and next buttons
-		// Label for total time
+		// Label for total time (get from 'f1Video' if present, else from media and then set 'f1Video' length)
 		Label lblTotalTime = new Label();
 		lblTotalTime.getStyleClass().add("center-left");
-		mplayer.totalDurationProperty().addListener((obs, o, n) -> lblTotalTime.setText(JkDuration.of(n).toStringElapsed(true, ChronoUnit.MINUTES)));
+		if(f1Video.getLength() != null) {
+			lblTotalTime.setText(f1Video.getLength().toStringElapsed(true, ChronoUnit.MINUTES));
+		} else {
+			ReadOnlyObjectProperty<Duration> totTimeProp = mplayer.totalDurationProperty();
+			ChangeListener<Duration> totEvent = (obs, o, n) -> {
+				if(n != null && n.toMillis() > 0 && f1Video.getLength() == null) {
+					f1Video.setLength(JkDuration.of(n));
+					lblTotalTime.setText(f1Video.getLength().toStringElapsed(true, ChronoUnit.MINUTES));
+				}
+			};
+			totTimeProp.addListener(totEvent);
+		}
 		HBox hboxTime = createHBox("lessSpacingBox sliderBox", lblActualTime, sliderTime, lblTotalTime);
 		HBox.setHgrow(hboxTime, Priority.ALWAYS);
 		mediaBar.getChildren().add(hboxTime);
@@ -428,7 +444,7 @@ public class JfxVideoPlayerF1 extends BorderPane {
 		});
 	}
 
-	private Pane createBookmarkPane(F1Video f1Video) {
+	private Pane createBookmarkPane() {
 		MediaPlayer mediaPlayer = mediaView.getMediaPlayer();
 
 		ObservableList<JkDuration> bookmarks = FXCollections.observableArrayList(new ArrayList<>());
@@ -504,7 +520,7 @@ public class JfxVideoPlayerF1 extends BorderPane {
 				if(mediaPlayer != null) {
 					Duration currentTime = mediaPlayer.getCurrentTime();
 					Duration totTime = mediaPlayer.getTotalDuration();
-                    JkDuration of = JkDuration.of((long) currentTime.toMillis());
+                    JkDuration of = JkDuration.of(currentTime);
                     lblActualTime.setText(of.toStringElapsed(true, ChronoUnit.MINUTES));
                     if (!sliderTime.isValueChanging()) {
                         Duration divided = currentTime.divide(totTime.toMillis());

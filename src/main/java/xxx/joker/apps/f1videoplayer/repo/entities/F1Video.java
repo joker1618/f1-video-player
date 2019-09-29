@@ -12,6 +12,8 @@ public class F1Video extends RepoEntity {
     @RepoField
     private String md5;
     @RepoField
+    private JkDuration length;
+    @RepoField
     private Set<JkDuration> marks = new TreeSet<>();
 
     public F1Video() {
@@ -31,6 +33,18 @@ public class F1Video extends RepoEntity {
 
     public Set<JkDuration> getMarks() {
         return marks;
+    }
+
+    public JkDuration getLength() {
+        return length;
+    }
+
+    public void setLength(JkDuration length) {
+        this.length = length;
+    }
+
+    public void setMarks(Set<JkDuration> marks) {
+        this.marks = marks;
     }
 
     @Override
