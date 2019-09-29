@@ -30,6 +30,8 @@ import xxx.joker.apps.f1videoplayer.repo.entities.F1Video;
 import xxx.joker.libs.core.datetime.JkDuration;
 import xxx.joker.libs.core.files.JkFiles;
 import xxx.joker.libs.core.javafx.JfxUtil;
+import xxx.joker.libs.core.lambdas.JkStreams;
+import xxx.joker.libs.core.utils.JkStruct;
 
 import java.nio.file.Path;
 import java.time.temporal.ChronoUnit;
@@ -40,6 +42,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static xxx.joker.libs.core.javafx.JfxControls.createHBox;
+import static xxx.joker.libs.core.javafx.JfxControls.createVBox;
 import static xxx.joker.libs.core.utils.JkStrings.strf;
 
 public class JfxVideoPlayerF1 extends BorderPane {
@@ -487,10 +490,10 @@ public class JfxVideoPlayerF1 extends BorderPane {
 		});
 		bookmarks.setAll(f1Video.getMarks());
 		gridPane.widthProperty().addListener(obs -> scrollPane.setPrefWidth(gridPane.getWidth() + 30));
-		HBox gpBox = createHBox("subBox boxSeekTimes", scrollPane);
-		bookmarkPane.setCenter(gpBox);
+		HBox boxSeeks = createHBox("subBox boxSeekTimes", scrollPane);
+		bookmarkPane.setCenter(boxSeeks);
 
-		// Reproduction rate
+		// Seek delta
 		double btnSize = 30d;
 		this.seekDelta = new SimpleDoubleProperty(0d);
 		Button btnMinus = new Button();
@@ -507,8 +510,34 @@ public class JfxVideoPlayerF1 extends BorderPane {
 		});
 		Label lblCaption = new Label("Seek delta:");
 		lblCaption.getStyleClass().add("bigLeft");
-		HBox hboxRate = createHBox("subBox seekDeltaBox", lblCaption, btnMinus, lblDelta, btnPlus);
-		bookmarkPane.setBottom(hboxRate);
+		HBox hboxDelta = createHBox("subBox seekDeltaBox", lblCaption, btnMinus, lblDelta, btnPlus);
+
+		Button btnPrevSeek = new Button();
+		btnPrevSeek.setGraphic(iconProvider.getIcon(IconProvider.PREVIOUS, 50d));
+		btnPrevSeek.setOnAction(e -> {
+			JkDuration curr = JkDuration.of(mediaPlayer.getCurrentTime().add(Duration.millis(seekDelta.get() * 1000 * -1)));
+			List<JkDuration> stList = JkStreams.filterSort(f1Video.getMarks(), st -> st.compareTo(curr) < 0);
+			stList.removeIf(st -> curr.minus(st).toMillis() < 10); // bug fix
+			if(!stList.isEmpty()) {
+				mediaPlayer.seek(JkStruct.getLastElem(stList).toFxDuration().add(Duration.millis(seekDelta.get() * 1000)));
+				updateValues();
+			}
+		});
+		Button btnNextSeek = new Button();
+		btnNextSeek.setGraphic(iconProvider.getIcon(IconProvider.NEXT, 50d));
+		btnNextSeek.setOnAction(e -> {
+			JkDuration curr = JkDuration.of(mediaPlayer.getCurrentTime().add(Duration.millis(seekDelta.get() * 1000 * -1)));
+			List<JkDuration> stList = JkStreams.filterSort(f1Video.getMarks(), st -> st.compareTo(curr) > 0);
+			stList.removeIf(st -> st.minus(curr).toMillis() < 10);  // bug fix
+			if(!stList.isEmpty()) {
+				mediaPlayer.seek(stList.get(0).toFxDuration().add(Duration.millis(seekDelta.get() * 1000)));
+				updateValues();
+			}
+		});
+		HBox boxNextPrevSeek = createHBox("subBox boxNextPrevSeek", btnPrevSeek, btnNextSeek);
+
+		VBox vboxBottom = createVBox("", boxNextPrevSeek, hboxDelta);
+		bookmarkPane.setBottom(vboxBottom);
 
 		return bookmarkPane;
 	}
