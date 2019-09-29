@@ -42,6 +42,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static xxx.joker.libs.core.javafx.JfxControls.createHBox;
 import static xxx.joker.libs.core.utils.JkConsole.display;
+import static xxx.joker.libs.core.utils.JkStrings.strf;
 
 public class JfxVideoPlayerF1 extends BorderPane {
 
@@ -60,6 +61,8 @@ public class JfxVideoPlayerF1 extends BorderPane {
 	private Label lblVolume;
 
 	private boolean isMediaTerminated;
+
+	private SimpleDoubleProperty seekDelta;
 
 	private IconProvider iconProvider;
 	private List<Double> rateList = Arrays.asList(0.1, 0.3, 0.5, 1.0, 2.0, 5.0);
@@ -463,7 +466,10 @@ public class JfxVideoPlayerF1 extends BorderPane {
 				gpBuilder.add(rowNum.get(), 0, String.valueOf(rowNum.get()+1));
 				gpBuilder.add(rowNum.get(), 1, b.toStringElapsed(ChronoUnit.MINUTES));
 				Button seek = new Button("SEEK");
-				seek.setOnAction(e -> mediaPlayer.seek(b.toFxDuration()));
+				seek.setOnAction(e -> {
+					mediaPlayer.seek(b.toFxDuration().add(Duration.millis(seekDelta.getValue() * 1000)));
+					updateValues();
+				});
 				gpBuilder.add(rowNum.get(), 2, seek);
 			});
 			gpBuilder.createGridPane(gridPane);
@@ -472,6 +478,26 @@ public class JfxVideoPlayerF1 extends BorderPane {
 		gridPane.widthProperty().addListener(obs -> scrollPane.setPrefWidth(gridPane.getWidth() + 30));
 		HBox gpBox = createHBox("subBox boxSeekTimes", scrollPane);
 		bookmarkPane.setCenter(gpBox);
+
+		// Reproduction rate
+		double btnSize = 30d;
+		this.seekDelta = new SimpleDoubleProperty(0d);
+		Button btnMinus = new Button();
+		btnMinus.setGraphic(iconProvider.getIcon(IconProvider.MINUS, btnSize));
+		btnMinus.setOnAction(e -> seekDelta.setValue(seekDelta.doubleValue() - 0.5));
+		Button btnPlus = new Button();
+		btnPlus.setGraphic(iconProvider.getIcon(IconProvider.PLUS, btnSize));
+		btnPlus.setOnAction(e -> seekDelta.setValue(seekDelta.doubleValue() + 0.5));
+		Label lblDelta = new Label(" 0.0");
+		seekDelta.addListener(obs -> {
+			double n = seekDelta.get();
+			String lblText = strf("%s%.1f", (n == 0 ? " " : n > 0 ? "+" : ""), n);
+			lblDelta.setText(lblText);
+		});
+		Label lblCaption = new Label("Seek delta:");
+		lblCaption.getStyleClass().add("bigLeft");
+		HBox hboxRate = createHBox("subBox seekDeltaBox", lblCaption, btnMinus, lblDelta, btnPlus);
+		bookmarkPane.setBottom(hboxRate);
 
 		return bookmarkPane;
 	}

@@ -120,3 +120,24 @@
     -fx-hgap: 15;
     -fx-vgap: 15;
 }
+.bookmarkPane .seekDeltaBox {
+    -fx-border-width: 1 0 0 0;
+}
+
+.bookmarkPane .seekDeltaBox .button {
+    -fx-padding: 0;
+}
+.bookmarkPane .seekDeltaBox .label {
+    -fx-pref-width: 40;
+    -fx-alignment: CENTER;
+    -fx-text-fill: -text-color;
+    -fx-font-weight: BOLD;
+}
+.bookmarkPane .seekDeltaBox .label.bigLeft {
+    -fx-pref-width: 100;
+    -fx-text-alignment: LEFT;
+    -fx-font-size: 15;
+}
+.bookmarkPane .seekDeltaBox .label .text{
+    -fx-text-fill: -text-color;
+}
