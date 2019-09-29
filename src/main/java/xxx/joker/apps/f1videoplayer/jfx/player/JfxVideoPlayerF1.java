@@ -1,6 +1,7 @@
 package xxx.joker.apps.f1videoplayer.jfx.player;
 
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ChangeListener;
@@ -9,6 +10,7 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -452,6 +454,7 @@ public class JfxVideoPlayerF1 extends BorderPane {
 		bookmarkPane.setTop(headerBox);
 
 		GridPane gridPane = new GridPane();
+		ScrollPane scrollPane = new ScrollPane(gridPane);
 		bookmarks.addListener((ListChangeListener<JkDuration>) c -> {
 			JfxGridPaneBuilder gpBuilder = new JfxGridPaneBuilder();
 			AtomicInteger rowNum = new AtomicInteger(-1);
@@ -466,7 +469,6 @@ public class JfxVideoPlayerF1 extends BorderPane {
 			gpBuilder.createGridPane(gridPane);
 		});
 		bookmarks.setAll(f1Video.getMarks());
-		ScrollPane scrollPane = new ScrollPane(gridPane);
 		gridPane.widthProperty().addListener(obs -> scrollPane.setPrefWidth(gridPane.getWidth() + 30));
 		HBox gpBox = createHBox("subBox boxSeekTimes", scrollPane);
 		bookmarkPane.setCenter(gpBox);
