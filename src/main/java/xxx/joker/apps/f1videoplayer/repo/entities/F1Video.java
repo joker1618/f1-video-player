@@ -1,19 +1,21 @@
 package xxx.joker.apps.f1videoplayer.repo.entities;
 
 import xxx.joker.libs.core.datetime.JkDuration;
+import xxx.joker.libs.datalayer.design.EntityPK;
 import xxx.joker.libs.datalayer.design.RepoEntity;
-import xxx.joker.libs.datalayer.design.RepoField;
+import xxx.joker.libs.datalayer.design.EntityField;
 
 import java.util.Set;
 import java.util.TreeSet;
 
 public class F1Video extends RepoEntity {
 
-    @RepoField
+    @EntityPK
+    @EntityField
     private String md5;
-    @RepoField
+    @EntityField
     private JkDuration length;
-    @RepoField
+    @EntityField
     private Set<JkDuration> marks = new TreeSet<>();
 
     public F1Video() {
@@ -47,8 +49,4 @@ public class F1Video extends RepoEntity {
         this.marks = marks;
     }
 
-    @Override
-    public String getPrimaryKey() {
-        return md5;
-    }
 }

@@ -202,7 +202,6 @@ public class JfxVideoPlayerF1 extends BorderPane {
 		sliderTime.setMinWidth(50);
 		sliderTime.setMaxWidth(Double.MAX_VALUE);
 
-		// Previous and next buttons
 		// Label for total time (get from 'f1Video' if present, else from media and then set 'f1Video' length)
 		Label lblTotalTime = new Label();
 		lblTotalTime.getStyleClass().add("center-left");
